@@ -1,10 +1,8 @@
 package com.bankingApp.service.impl;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.bankingApp.dto.AccountDto;
@@ -91,6 +89,18 @@ public class AccountServiceImpl implements AccountService {
 				accountRepository.deleteById(id);
 		
 	}
+
+
+
+	@Override
+	public AccountDto updateAccount(Integer id, AccountDto accountDto) {
+	    Account account = accountRepository.findById(id)
+	            .orElseThrow(() -> new RuntimeException("Account does not exist"));
+	    account.setAccountHolderName(accountDto.getAccountHolderName());
+	    Account accountUpdate = accountRepository.save(account);
+	    return AccountMapper.mapToAccountDto(accountUpdate);
+	}
+
 	
 	
 

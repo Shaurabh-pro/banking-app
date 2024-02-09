@@ -35,6 +35,13 @@ public class AccountController {
 		return new ResponseEntity<>(accountService.createAccount(accountDto),HttpStatus.CREATED);
 	}
 	
+	//UPDATE ACCOUNT 
+	@PutMapping("/kyc/{id}")
+	public ResponseEntity<AccountDto> updateAccount(@PathVariable Integer id, @RequestBody AccountDto accountDto){
+		AccountDto accountUpdate = accountService.updateAccount(id, accountDto);
+		return ResponseEntity.ok(accountUpdate);
+	}
+	
 	// GET ACCOUNT BY ID
 	
 	@GetMapping("/{id}")

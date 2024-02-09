@@ -8,6 +8,8 @@ public interface AccountService  {
 	
 	AccountDto createAccount(AccountDto accountDto);
 	
+	AccountDto updateAccount(Integer id, AccountDto accountDto);
+	
 	AccountDto getAccountById(Integer id);
 	
 	AccountDto deposit(Integer id, Double amount);
