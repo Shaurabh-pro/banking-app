@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bankingApp.dto.AccountDto;
@@ -29,13 +30,12 @@ public class AccountController {
 	}
 	
 	//add Account REST API
-	
 	@PostMapping
 	public ResponseEntity<AccountDto> addAccount(@RequestBody AccountDto accountDto){
 		return new ResponseEntity<>(accountService.createAccount(accountDto),HttpStatus.CREATED);
 	}
 	
-	//UPDATE ACCOUNT 
+	//UPDATE ACCOUNT
 	@PutMapping("/kyc/{id}")
 	public ResponseEntity<AccountDto> updateAccount(@PathVariable Integer id, @RequestBody AccountDto accountDto){
 		AccountDto accountUpdate = accountService.updateAccount(id, accountDto);
@@ -43,7 +43,6 @@ public class AccountController {
 	}
 	
 	// GET ACCOUNT BY ID
-	
 	@GetMapping("/{id}")
 	public ResponseEntity<AccountDto> getAccountById(@PathVariable Integer id) {
 		AccountDto accountDto = accountService.getAccountById(id);
@@ -52,7 +51,6 @@ public class AccountController {
 	}
 	
 	//DEPOSIT REST API
-	
 	@PutMapping("/{id}/deposit")
 	public ResponseEntity<AccountDto> deposit(@PathVariable Integer id, @RequestBody Map<String, Double> request) {
 		Double amount = request.get("amount");
@@ -72,7 +70,6 @@ public class AccountController {
 	}
 	
 	// GET ALL ACCOUNT REST API
-	
 	@GetMapping
 	public ResponseEntity<List<AccountDto>> getAllAccounts(){
 	 List<AccountDto> accounts = accountService.getAllAccount();
@@ -80,11 +77,27 @@ public class AccountController {
 	 return ResponseEntity.ok(accounts);
 	}
 	
-	// DELETE ACCOUNT REST API
+	//SORT BY NAME ACCOUNT HOLDER
+	@GetMapping("/sortbyname")
+	public ResponseEntity<List<AccountDto>> accountSortByName(){
+		List<AccountDto> sortByNameAccount = accountService.AccountSortByName();
+		
+		return ResponseEntity.ok(sortByNameAccount);
+	}
 	
+	//SEARCH API BY NAME
+	@GetMapping("/search")
+	 public ResponseEntity<List<AccountDto>> searchAccountsByName(@RequestParam String name) {
+        List<AccountDto> foundAccounts = accountService.AccountSearchByAccountHolderName(name);
+        return ResponseEntity.ok(foundAccounts);
+    }
+	
+	
+	// DELETE ACCOUNT REST API
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteAccountById(@PathVariable Integer id){
 		accountService.deleteAccount(id);
+		
 		return ResponseEntity.ok("Account is deleted successfully");
 	}
 	

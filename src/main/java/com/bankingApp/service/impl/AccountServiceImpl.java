@@ -3,6 +3,7 @@ package com.bankingApp.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bankingApp.dto.AccountDto;
@@ -100,6 +101,34 @@ public class AccountServiceImpl implements AccountService {
 	    Account accountUpdate = accountRepository.save(account);
 	    return AccountMapper.mapToAccountDto(accountUpdate);
 	}
+
+
+
+	@Override
+	public List<AccountDto> AccountSortByName() {
+		List<Account> accounts = accountRepository.findAll(Sort.by(Sort.Direction.ASC, "accountHolderName"));
+		return accounts.stream()
+                .map(AccountMapper::mapToAccountDto)
+                .collect(Collectors.toList());
+	}
+	
+	
+	@Override
+	public List<AccountDto> AccountSearchByAccountHolderName(String name) {
+		List<Account> accounts = accountRepository.findByAccountHolderNameContainingIgnoreCase(name);
+        return accounts.stream()
+                .map(AccountMapper::mapToAccountDto)
+                .collect(Collectors.toList());
+		
+	}
+	
+
+
+
+	
+
+
+	
 
 	
 	

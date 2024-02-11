@@ -11,12 +11,16 @@ public interface AccountService  {
 	AccountDto updateAccount(Integer id, AccountDto accountDto);
 	
 	AccountDto getAccountById(Integer id);
-	
+
 	AccountDto deposit(Integer id, Double amount);
 	
 	AccountDto withdrow(Integer id, Double amount);
 	
 	List<AccountDto> getAllAccount();
+	
+    List<AccountDto> AccountSortByName();
+	
+	List<AccountDto> AccountSearchByAccountHolderName(String name);
 	
 	void deleteAccount(Integer id);
 
